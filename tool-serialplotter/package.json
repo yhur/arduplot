@@ -6,7 +6,7 @@
     "build tools",
     "build system"
   ],
-  "license": "Apache License",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/yhur/PIOSerialPlotter"
