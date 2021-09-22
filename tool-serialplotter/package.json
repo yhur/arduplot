@@ -1,6 +1,6 @@
 {
   "name": "tool-serialPlotter",
-  "version": "0.09000.0",
+  "version": "0.09010.0",
   "description": "PlatformIO Serial Data Plotter",
   "keywords": [
     "build tools",
