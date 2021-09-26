@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Copyright (c) 2014-present PlatformIO <contact@platformio.org>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +15,9 @@
 
 try:
     from platformio.project.config import ProjectConfig
-    import serial
 except ImportError:
     print('Please run in the proper PlatformIO environment')
+import serial
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import sys, signal, getopt, json, socket
