@@ -1,29 +1,43 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-present PlatformIO <contact@platformio.org>
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# Copyright (c) <year> <copyright holders>
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-try:
-    from platformio.project.config import ProjectConfig
-except ImportError:
-    print('Please run in the proper PlatformIO environment')
 import serial
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import sys, signal, getopt, json, socket
+try:
+    from platformio.project.config import ProjectConfig
+    piomode = True
+except ImportError:
+    print('Please run in the proper PlatformIO environment')
 
+# global variabls
 short_options = 'ht:w:s:'
 long_options = ['title=','width=','help','socket=']
+width = 50
+title = 'Serial Data Plot'
+tcp_socket = None
+data=[]
+data_label=[]
+
 # Handle Ctrl-C
 def sighandler(signum, frame):
     print('Ctrl-C pressed')
@@ -81,12 +95,73 @@ def valueByKey(j, key, value):
         return value
 
 # main start
-width = 50
-title = 'Serial Data Plot'
-tcp_socket = None
-data=[]
-data_label=[]
+def main():
+    try:
+        with open('plotcfg.json') as jfile:
+            plot_cfg = json.load(jfile)
+        title = valueByKey(plot_cfg, 'title', title)
+        width = valueByKey(plot_cfg, 'width', width)
+        data_label = valueByKey(plot_cfg, 'label', data_label)
+    except FileNotFoundError:
+        pass
+    
+    try:
+        arguments, data_label_in = getopt.getopt(sys.argv[1:], short_options, long_options)
+    except getopt.error as err:
+        print (str(err))
+        sys.exit(1)
+    
+    if len(data_label_in) > 0:
+        data_label = data_label_in
+    
+    for arg, val in arguments:
+        if arg in ('-w', '--width'):
+            width = int(val)
+        elif arg in ('-t', '--title'):
+            title = val
+        elif arg in ('-s', '--socket'):
+            tcp_socket = int(val)
+        elif arg in ('-h', '--help'):
+            print('\nUsage:')
+            print('\n\t python {} [-h] [-w 100] [-t ChartTitle] [-s 5050] [dataLabel1] [dataLabel2 ...]]'.format(sys.argv[0]))
+            print('\n\t\tOR')
+            print('\n\t python {} [--help] [--width=100] [--title=ChartTitle] [--socket=5050] [dataLabel1] [dataLabel2 ...]\n'.format(sys.argv[0]))
+            exit()
+    
+    if tcp_socket:
+        getInput = tcp_in
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        server_socket.bind(('localhost', tcp_socket))
+        server_socket.listen()
+        client_socket, addr = server_socket.accept()
+    else:
+        getInput = uart_in
+        ser = serial.Serial()
+        ser.timeout = 10
+        config = ProjectConfig.get_instance()  # PIO project config
+        for s in config.sections():
+            ser.port = config.get(s, 'monitor_port')
+            ser.baudrate = config.get(s, 'monitor_speed')
+        if ser.port == None or ser.baudrate == None:
+            print("Please check the platformio.ini for the 'monitor_port")
+            exit(2)
+        ser.open()
+        if ser.is_open==True:
+        	print('\nSerial port listening:')
+        	print('\tport: {}, baud: {}\n'.format(ser.port, ser.baudrate))
+    
+    fig = plt.figure()
+    if not tcp_socket:
+        fig.canvas.manager.set_window_title(ser.port)
+    else:
+        fig.canvas.manager.set_window_title('tcp://localhost:'+str(tcp_socket))
+    ax = fig.subplots()
+    ani = animation.FuncAnimation(fig, animate,  interval=1000)
+    plt.show()
 
+
+#### temporary
 try:
     with open('plotcfg.json') as jfile:
         plot_cfg = json.load(jfile)
