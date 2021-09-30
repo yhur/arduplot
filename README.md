@@ -2,20 +2,21 @@
 
 ### No Serial Plotter for PlatformIO/VSCode ???
 
-<p>The following picture is the Arduino IDE's serial plotter, but the PlatformIO and/or VSCode don't have it. Hence it's made and this repo is the equivalent to that.</p>
+<p>The following picture shows the Arduino IDE's serial plotter which plots the date coming through the serial port.</p>
 
 ![Arduino Serial Plotter](https://user-images.githubusercontent.com/13171662/133396210-a3c486cc-1c94-4cdc-abd9-7f56042f0f2f.png)
 
 
+<p>But the PlatformIO and/or VSCode don't have it. Hence it's made and this repo is the equivalent to that.</p>
 <p>This tool can be run stand alone with the usage below. This needs to be started in the PIO Terminal Panel, specifically in the PIO bundled python venv.</p>
 <pre>
 Usage:
 
-         python /Users/yhur/.platformio/packages/tool-serialplotter/serialPlotter.py [-h] [-w 100] [-t ChartTitle] [-s 5050] [dataLabel1] [dataLabel2 ...]]
+         serialplot [-h] [-w 100] [-t ChartTitle] [-s 5050] [dataLabel1] [dataLabel2 ...]]
 
                 OR
 
-         python /Users/yhur/.platformio/packages/tool-serialplotter/serialPlotter.py [--help] [--width=100] [--title=ChartTitle] [--socket=5050] [dataLabel1] [dataLabel2 ...]
+         serialplot [--help] [--width=100] [--title=ChartTitle] [--socket=5050] [dataLabel1] [dataLabel2 ...]
 </pre>
 <ul>
   <li>-h | --help : This option prints the above usage.</li>
