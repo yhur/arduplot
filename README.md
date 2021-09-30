@@ -2,7 +2,7 @@
 
 ### No Serial Plotter for PlatformIO/VSCode ???
 
-<p>The following picture is the Arduino IDE's serial plotter and this repo is the equivalent to this.</p>
+<p>The following picture is the Arduino IDE's serial plotter, but the PlatformIO and/or VSCode don't have it. Hence it's made and this repo is the equivalent to that.</p>
 
 ![Arduino Serial Plotter](https://user-images.githubusercontent.com/13171662/133396210-a3c486cc-1c94-4cdc-abd9-7f56042f0f2f.png)
 
