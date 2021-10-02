@@ -1,4 +1,4 @@
-# PIOSerialPlotter
+# arduplot
 
 ### No Serial Plotter for PlatformIO/VSCode ???
 
@@ -7,28 +7,25 @@
 ![Arduino Serial Plotter](https://user-images.githubusercontent.com/13171662/133396210-a3c486cc-1c94-4cdc-abd9-7f56042f0f2f.png)
 
 
-<p>But the PlatformIO and/or VSCode don't have it. Hence it's made and this repo is the equivalent to that.</p>
+<p>But there is no built-in equivalent tool for the PlatformIO and/or VSCode. Hence arduplot(Arduino Plot) is made to support the equivalent funcitionality.</p>
 <p>This tool can be run stand alone with the usage below. This needs to be started in the PIO Terminal Panel, specifically in the PIO bundled python venv.</p>
 <pre>
-Usage:
+Usage: arduplot [OPTIONS] [LABELS]...
 
-         serialplot [-h] [-w 100] [-t ChartTitle] [-s 5050] [dataLabel1] [dataLabel2 ...]]
-
-                OR
-
-         serialplot [--help] [--width=100] [--title=ChartTitle] [--socket=5050] [dataLabel1] [dataLabel2 ...]
+Options:
+  -w, --width INTEGER   Plotter Width
+  -t, --title TEXT      Plotter Title
+  -s, --socket INTEGER  TCP Socket Port number
+  -p, --port TEXT       Serial Port, a number or a device name
+  -b, --baud INTEGER    Set baudrate, default=115200
+  --help                Show this message and exit.
 </pre>
-<ul>
-  <li>-h | --help : This option prints the above usage.</li>
-<li>-t | --titile : This let you change the title of the page.</li>
-<li>-w | --width : This let you adjust the plot X axis and the number of data spots. The default is 50.</li>
-<li>-s | --socket : This tool can listen on a TCP port and plot the data instead of the serial port if this TCP port number is provided.</li>
-</ul>
 As an example, when you run it this way,
 <pre>
-pytho PlotSerialData.py -t Thermometer -w 100 Temperature Humidity
+arduplot -t Thermometer -w 100 Temperature Humidity
 </pre>
-You'll see see the plot like this
+Here -t Thermometer is the title of the plot chart, -w 100 is the width of the plot, and Temperature and the Humidity are the labels of the plotting date.
+And you'll see see the plot like this
 <img width="888" alt="Screen Shot 2021-09-15 at 5 06 58 PM" src="https://user-images.githubusercontent.com/13171662/133395207-5af9da40-59a1-48e0-995d-72a0bf3d386e.png">
 
 ### Optional Plot Configuration
@@ -45,10 +42,16 @@ There is an optional configuration file where you can set the setting for the pl
 }
 </pre>
 This configuration would be helpful, if you want to run this tool over the TCP port via some other tool where it's not easy to pass-through the setting information.
-## Prerequisite
-* This plotter uses the matplotlib, so you need to install it by this command.
+## Installation and Prerequisite
+* This plotter uses the following dependancies, and they will be installed when you install this tool..
 <pre>
-pip install matplotlib
+         matplotlib
+         click
+         pyserial
 </pre>
-* Download and place the python code where you can easily recall and call.
+You can install this tool with the pip as follows
+<pre>
+pip install arduplot
+</pre>
+
 
