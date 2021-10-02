@@ -22,7 +22,7 @@
 import serial
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import sys
+import os
 import signal
 import json
 import socket
@@ -128,10 +128,15 @@ def main(**kwargs):
         ser = serial.Serial()
         ser.timeout = 10
         if piomode:
-            config = ProjectConfig.get_instance()  # PIO project config
-            for s in config.sections():
-                ser.port = kwargs['port'] or config.get(s, 'monitor_port') or None
-                ser.baudrate = kwargs['baud'] or config.get(s, 'monitor_speed') or 115200
+            ser.port = None
+            ser.baudrate = 115200
+            if os.path.isfile(ProjectConfig.get_default_path()):
+                config = ProjectConfig.get_instance()  # PIO project config
+                for s in config.sections():
+                    ser.port = config.get(s, 'monitor_port') or ser.port
+                    ser.baudrate = config.get(s, 'monitor_speed') or ser.baudrate
+            ser.port = kwargs['port'] or ser.port
+            ser.baudrate = kwargs['baud'] or ser.baudrate
             if ser.port == None:
                 print("Please check the platformio.ini for the 'monitor_port or the -p option")
                 exit(2)
