@@ -22,7 +22,11 @@
 import serial
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import sys, signal, getopt, json, socket
+import sys
+import signal
+import json
+import socket
+import click
 try:
     from platformio.project.config import ProjectConfig
     piomode = True
@@ -95,6 +99,13 @@ def valueByKey(j, key, value):
         return value
 
 # main start
+
+@click.option("--width", "-w", help="Plotter Width")
+@click.option("--title", "-t", type=int, help="Plotter Title")
+@click.option("--help", "-h", is_flag=True, help="Plotter Title")
+@click.option("--port", "-p", help="Port, a number or a device name")
+@click.option("--baud", "-b", type=int, help="Set baud rate, default=115200")
+@click.option("--data_label", "-l", type=int, help="Data Labels")
 def main():
     try:
         with open('plotcfg.json') as jfile:
@@ -104,12 +115,6 @@ def main():
         data_label = valueByKey(plot_cfg, 'label', data_label)
     except FileNotFoundError:
         pass
-    
-    try:
-        arguments, data_label_in = getopt.getopt(sys.argv[1:], short_options, long_options)
-    except getopt.error as err:
-        print (str(err))
-        sys.exit(1)
     
     if len(data_label_in) > 0:
         data_label = data_label_in
@@ -193,35 +198,3 @@ for arg, val in arguments:
         print('\n\t\tOR')
         print('\n\t python {} [--help] [--width=100] [--title=ChartTitle] [--socket=5050] [dataLabel1] [dataLabel2 ...]\n'.format(sys.argv[0]))
         exit()
-
-if tcp_socket:
-    getInput = tcp_in
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server_socket.bind(('localhost', tcp_socket))
-    server_socket.listen()
-    client_socket, addr = server_socket.accept()
-else:
-    getInput = uart_in
-    ser = serial.Serial()
-    ser.timeout = 10
-    config = ProjectConfig.get_instance()  # PIO project config
-    for s in config.sections():
-        ser.port = config.get(s, 'monitor_port')
-        ser.baudrate = config.get(s, 'monitor_speed')
-    if ser.port == None or ser.baudrate == None:
-        print("Please check the platformio.ini for the 'monitor_port")
-        exit(2)
-    ser.open()
-    if ser.is_open==True:
-    	print('\nSerial port listening:')
-    	print('\tport: {}, baud: {}\n'.format(ser.port, ser.baudrate))
-
-fig = plt.figure()
-if not tcp_socket:
-    fig.canvas.manager.set_window_title(ser.port)
-else:
-    fig.canvas.manager.set_window_title('tcp://localhost:'+str(tcp_socket))
-ax = fig.subplots()
-ani = animation.FuncAnimation(fig, animate,  interval=1000)
-plt.show()
