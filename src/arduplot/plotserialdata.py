@@ -36,7 +36,6 @@ except ImportError:
 
 # Handle Ctrl-C
 def sighandler(signum, frame):
-    print('Ctrl-C pressed')
     exit(9)
 signal.signal(signal.SIGINT, sighandler)
 
