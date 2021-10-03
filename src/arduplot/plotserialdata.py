@@ -46,7 +46,7 @@ def valueByKey(j, key, value):
     else:
         return value
 
-# MAIN FUNCTION
+# BEGIN MAIN FUNCTION
 @click.command()
 @click.option("--width", "-w", type=int, help="Plotter Width")
 @click.option("--title", "-t",  help="Plotter Title")
@@ -110,11 +110,14 @@ def main(**kwargs):
     try:
         with open('plotcfg.json') as jfile:
             plot_cfg = json.load(jfile)
-        title = kwargs['title'] or valueByKey(plot_cfg, 'title', title)
-        width = kwargs['width'] or valueByKey(plot_cfg, 'width', width)
-        data_label = list(kwargs['labels']) or valueByKey(plot_cfg, 'label', data_label)
+        title = valueByKey(plot_cfg, 'title', title)
+        width = valueByKey(plot_cfg, 'width', width)
+        data_label = valueByKey(plot_cfg, 'label', data_label)
     except FileNotFoundError:
         pass
+    title = kwargs['title'] or title
+    width = kwargs['width'] or width
+    data_label = list(kwargs['labels']) or data_label
     
     if tcp_socket:
         getInput = tcp_in
@@ -127,9 +130,9 @@ def main(**kwargs):
         getInput = uart_in
         ser = serial.Serial()
         ser.timeout = 10
+        ser.port = None
+        ser.baudrate = 115200
         if piomode:
-            ser.port = None
-            ser.baudrate = 115200
             if os.path.isfile(ProjectConfig.get_default_path()):
                 config = ProjectConfig.get_instance()  # PIO project config
                 for s in config.sections():
@@ -141,8 +144,12 @@ def main(**kwargs):
                 print("Please check the platformio.ini for the 'monitor_port or the -p option")
                 exit(2)
         else:
+            ser.baudrate = kwargs['baud'] or ser.baudrate
             ser.port = kwargs['port']
-            ser.baudrate = kwargs['baud']
+        if not ser.port:
+            print('\nPlease provide the serial port information\n')
+            print('\t arduplot -p /dev/cu.usbserail-ABCDEEF or arduplot -p COM3\n')
+            exit(3)
         ser.open()
         if ser.is_open==True:
         	print('\nSerial port listening:')
@@ -156,6 +163,7 @@ def main(**kwargs):
     ax = fig.subplots()
     ani = animation.FuncAnimation(fig, animate,  interval=1000)
     plt.show()
+# END MAIN FUNCTION
 
 if __name__ == '__main__':
     main()
