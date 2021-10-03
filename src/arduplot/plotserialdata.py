@@ -150,10 +150,14 @@ def main(**kwargs):
             print('\nPlease provide the serial port information\n')
             print('\t arduplot -p /dev/cu.usbserail-ABCDEEF or arduplot -p COM3\n')
             exit(3)
-        ser.open()
-        if ser.is_open==True:
-        	print('\nSerial port listening:')
-        	print('\tport: {}, baud: {}\n'.format(ser.port, ser.baudrate))
+        try:
+            ser.open()
+            if ser.is_open==True:
+        	    print('\nSerial port listening:')
+        	    print('\tport: {}, baud: {}\n'.format(ser.port, ser.baudrate))
+        except FileNotFoundError:
+            print('Serial Device {} is not found'.format(ser.port))
+            exit(4)
 
     fig = plt.figure()
     if not tcp_socket:
