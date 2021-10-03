@@ -27,6 +27,7 @@ import signal
 import json
 import socket
 import click
+from serial.serialutil import SerialException
 try:
     from platformio.project.config import ProjectConfig
     piomode = True
@@ -155,7 +156,7 @@ def main(**kwargs):
             if ser.is_open==True:
         	    print('\nSerial port listening:')
         	    print('\tport: {}, baud: {}\n'.format(ser.port, ser.baudrate))
-        except FileNotFoundError:
+        except serial.serialutil.SerialException:
             print('Serial Device {} is not found'.format(ser.port))
             exit(4)
 
