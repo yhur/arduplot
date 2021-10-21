@@ -29,7 +29,7 @@ And you'll see see the plot like this
 <img width="888" alt="Screen Shot 2021-09-15 at 5 06 58 PM" src="https://user-images.githubusercontent.com/13171662/133395207-5af9da40-59a1-48e0-995d-72a0bf3d386e.png">
 
 ### Optional Plot Configuration
-There is an optional configuration file where you can set the setting for the plotting for the project. When you create a json file named **'plotcfg.json'** under the root directory of the PIO project, you don't have to pass the setting every time you invoke the tool.
+There is an optional configuration file where you can set the setting for the plotting for the project. If you create a json file named **'plotcfg.json'** under the root directory of the PIO project, you don't have to pass the parameters every time you invoke the tool.
 <pre>
 {
     "label": [
