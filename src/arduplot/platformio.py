@@ -48,13 +48,6 @@ class SerialPlotter(DeviceMonitorFilter):
             self.arduplot = os.path.join(pio_root, 'penv', 'Scripts' , self.arduplot + '.cmd')
         else:
             self.arduplot = os.path.join(pio_root, 'penv', 'bin' , self.arduplot)
-
-        if not os.path.isfile(self.arduplot):
-            print("\n\nThe 'arduplot' is not installed on this system")
-            print("Please, install the 'arduplot' to run with -f serial_plotter\n")
-            print("Run\n")
-            print("\tpip install arduplot\n")
-            sys.exit(1)
         print('--- serial_plotter is starting')
         self.plot = subprocess.Popen([self.arduplot, '-s', str(PORT)])
         try:
