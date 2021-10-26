@@ -49,7 +49,7 @@ def value_by_key(j, key, value):
     return value
 
 # BEGIN MAIN FUNCTION
-@click.command()
+@click.command(context_settings=dict(help_option_names=["-h", "--help"]))
 @click.option("--width", "-w", type=int, help="Plotter Width")
 @click.option("--title", "-t",  help="Plotter Title")
 @click.option("--socket", "-s", type=int, help="TCP Socket Port number")
