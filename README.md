@@ -54,4 +54,18 @@ You can install this tool with the pip as follows
 pip install arduplot
 </pre>
 
+## Running it as part of PlatformIO monitor filter ##
+You need to copy filter_plotter.py to either 
+<pre>
+(project_dir)/monitor, 
+</pre> 
+for every project, or 
+<pre>
+~/.platformio/platform/espressif8266/monitor (or ~/.platformio/platform/espressif32/monitor for esp32)
+</pre>
+and run pio device monitor -f plotter after installation of the arduplot.
 
+Or you can just set the environment variable as below and run this without copying.
+<pre>
+export PLATFORMIO_MONITOR_DIR=$(HOME)/.platformio/penv/lib/python3.9/site-packages/arduplot/
+</pre>
