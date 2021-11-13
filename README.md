@@ -57,7 +57,7 @@ pip install arduplot
 </pre>
 
 ## Running it as part of PlatformIO monitor filter ##
-1. Install the arduplot first<pre>pip install arduplot</pre>
+1. Install the arduplot first unless installed yet<pre>pip install arduplot</pre>
 2. copy ~/.platformio/penv/lib/python3.9/site-packages/arduplot/filter_plotter.py to either 
 <pre>
 (project_dir)/monitor, 
