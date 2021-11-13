@@ -27,12 +27,12 @@ import os
 import signal
 import sys
 from platformio.commands.device import DeviceMonitorFilter
-from platformio.project.helpers import get_project_core_dir
+from platformio.project.config import ProjectConfig
 
 PORT = 19200
 
 class SerialPlotter(DeviceMonitorFilter):
-    NAME = "serial_plotter"
+    NAME = "plotter"
 
     def __init__(self, *args, **kwargs):
         super(SerialPlotter, self).__init__(*args, **kwargs)
@@ -43,7 +43,7 @@ class SerialPlotter(DeviceMonitorFilter):
         self.plot = ''
 
     def __call__(self):
-        pio_root = get_project_core_dir()
+        pio_root = ProjectConfig.get_instance().get_optional_dir("core")
         if sys.platform == 'win32':
             self.arduplot = os.path.join(pio_root, 'penv', 'Scripts' , self.arduplot + '.cmd')
         else:
