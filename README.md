@@ -24,7 +24,7 @@ As an example, you can build and run https://github.com/iotlab101/dht22_platform
 <pre>
 arduplot -t Thermometer -w 100 Temperature Humidity
 </pre>
-Here -t Thermometer is the title of the plot chart, -w 100 is the width of the plot, and Temperature and the Humidity are the labels of the plotting date.
+Here -t Thermometer is the title of the plot chart, -w 100 is the width of the plot, and Temperature and the Humidity are the labels of the plotting data.
 And you'll see see the plot like this
 
 
