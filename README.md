@@ -20,7 +20,7 @@ Options:
   -b, --baud INTEGER    Set baudrate, default=115200
   --help                Show this message and exit.
 </pre>
-As an example, you can build and run https://github.com/iotlab101/dht22_platformio on an esp8266 and run the following command.
+As an example, you can build and run https://github.com/iotlab101/pio_filter_dht22 on an esp8266 and run the following command.
 <pre>
 arduplot -t Thermometer -w 100 Temperature Humidity
 </pre>
