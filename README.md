@@ -68,9 +68,9 @@ for every project, or
 </pre>
 Or you can just set the environment variable as below and run this without copying.
 <pre>
-export PLATFORMIO_MONITOR_DIR=$(HOME)/.platformio/penv/lib/python3.9/site-packages/arduplot/
+export PLATFORMIO_MONITOR_DIR=${HOME}/.platformio/penv/lib/python3.9/site-packages/arduplot/
 </pre>
-3. run pio device monitor -f plotter after installation of the arduplot. And you will get this plot.
+3. run <pre>pio device monitor -f plotter</pre> after installation of the arduplot. And you will get this plot.
 
 <img width="937" alt="Screen Shot 2021-11-13 at 9 46 49 PM" src="https://user-images.githubusercontent.com/13171662/141644389-00e05586-837c-4bd9-9c73-5f61e2785ead.png">
 
