@@ -2,7 +2,7 @@
 
 ### No Serial Plotter for PlatformIO/VSCode ???
 
-<p>The following picture shows the Arduino IDE's serial plotter which plots the date coming through the serial port.</p>
+<p>The following picture shows the Arduino IDE's serial plotter which plots the data coming through the serial port.</p>
 
 ![Arduino Serial Plotter](https://user-images.githubusercontent.com/13171662/133396210-a3c486cc-1c94-4cdc-abd9-7f56042f0f2f.png)
 
