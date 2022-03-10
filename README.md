@@ -2,7 +2,7 @@
 
 ### No Serial Plotter for PlatformIO/VSCode ???
 
-<p>The following picture shows the Arduino IDE's serial plotter which plots the date coming through the serial port.</p>
+<p>The following picture shows the Arduino IDE's serial plotter which plots the data coming through the serial port.</p>
 
 ![Arduino Serial Plotter](https://user-images.githubusercontent.com/13171662/133396210-a3c486cc-1c94-4cdc-abd9-7f56042f0f2f.png)
 
@@ -20,24 +20,26 @@ Options:
   -b, --baud INTEGER    Set baudrate, default=115200
   --help                Show this message and exit.
 </pre>
-As an example, when you run it this way,
+As an example, you can build and run https://github.com/iotlab101/pio_filter_dht22 on an esp8266 and run the following command.
 <pre>
 arduplot -t Thermometer -w 100 Temperature Humidity
 </pre>
-Here -t Thermometer is the title of the plot chart, -w 100 is the width of the plot, and Temperature and the Humidity are the labels of the plotting date.
+Here -t Thermometer is the title of the plot chart, -w 100 is the width of the plot, and Temperature and the Humidity are the labels of the plotting data.
 And you'll see see the plot like this
-<img width="888" alt="Screen Shot 2021-09-15 at 5 06 58 PM" src="https://user-images.githubusercontent.com/13171662/133395207-5af9da40-59a1-48e0-995d-72a0bf3d386e.png">
+
+
+![Screen Shot 2021-11-13 at 9 59 48 PM](https://user-images.githubusercontent.com/13171662/141644699-778221fe-7eb4-4760-bc6b-3f3671e2724d.png)
+
 
 ### Optional Plot Configuration
-There is an optional configuration file where you can set the setting for the plotting for the project. If you create a json file named **'plotcfg.json'** under the root directory of the PIO project, you don't have to pass the parameters every time you invoke the tool.
+There is an optional configuration file where you can set the setting for the plotting for the project. If you create a json file named **'plotcfg.json'** under the the PIO project directory, you don't have to pass the parameters every time you invoke the tool.
 <pre>
 {
     "label": [
         "temperature",
-        "humidity",
-        "hum2"
+        "humidity"
     ],
-    "title": "test",
+    "title": "Thermmeter",
     "width": 100
 }
 </pre>
@@ -54,4 +56,14 @@ You can install this tool with the pip as follows
 pip install arduplot
 </pre>
 
+## Running it as part of PlatformIO monitor filter ##
+1. Install the arduplot first<pre>pip install arduplot</pre>
+2. copy ~/.platformio/penv/lib/python3.9/site-packages/arduplot/filter_plotter.py to either<pre>
+&lt;Project&gt;/monitor</pre> for every project, or<pre>
+~/.platformio/platform/espressif8266/monitor (or ~/.platformio/platform/espressif32/monitor for esp32)
+</pre>Or you can just set the environment variable as below and run this without copying.<pre>
+export PLATFORMIO_MONITOR_DIR=${HOME}/.platformio/penv/lib/python3.9/site-packages/arduplot/</pre>
+3. With the above steps done, run <pre>pio device monitor -f plotter</pre>And you will get this plot.
+
+<img width="937" alt="Screen Shot 2021-11-13 at 9 46 49 PM" src="https://user-images.githubusercontent.com/13171662/141644389-00e05586-837c-4bd9-9c73-5f61e2785ead.png">
 
