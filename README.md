@@ -14,6 +14,8 @@ Usage: arduplot [OPTIONS] [LABELS]...
 
 Options:
   -w, --width INTEGER   Plotter Width
+  -i, --width INTEGER   Plotter Y Axis Min
+  -x, --width INTEGER   Plotter Y Axis Max
   -t, --title TEXT      Plotter Title
   -s, --socket INTEGER  TCP Socket Port number
   -p, --port TEXT       Serial Port, a number or a device name
