@@ -60,11 +60,24 @@ pip install arduplot
 
 ## Running it as part of PlatformIO monitor filter ##
 1. Install the arduplot first<pre>pip install arduplot</pre>
-2. copy ~/.platformio/penv/lib/python3.9/site-packages/arduplot/filter_plotter.py to either<pre>
-&lt;Project&gt;/monitor</pre> for every project, or<pre>
+2. Configure the tool. There are three ways to configure.
+<ol type="i">
+  <li>configure every time you create a pio project</li>
+  <li>configure your platform wise like esp8266 or esp32</li>
+  <li>or you just configure globally by setting an environment variable.</li>
+</ol>
+For i), you create a folder 'monitor' under your pio project folder, and copy ~/.platformio/penv/lib/python3.9/site-packages/arduplot/filter_plotter.py script to that folder.
+<pre>&lt;Project&gt;/monitor</pre>
+
+For ii), you create the ~/.platformio/platform/espressif8266/monitor folder and copy ~/.platformio/penv/lib/python3.9/site-packages/arduplot/filter_plotter.py to that folder. If you're using other platform like esp32, then create the ~/.platformio/platform/espressif32/monitor folder and copy to that folder.
+<pre>
 ~/.platformio/platform/espressif8266/monitor (or ~/.platformio/platform/espressif32/monitor for esp32)
-</pre>Or you can just set the environment variable as below and run this without copying.<pre>
-export PLATFORMIO_MONITOR_DIR=${HOME}/.platformio/penv/lib/python3.9/site-packages/arduplot/</pre>
+</pre>
+
+For iii), you can just set the environment variable as below and run this without copying. For Windows, you set the environment variable as such in the Windows way.
+<pre>export PLATFORMIO_MONITOR_DIR=${HOME}/.platformio/penv/lib/python3.9/site-packages/arduplot/</pre>
+
+
 3. With the above steps done, run <pre>pio device monitor -f plotter</pre>And you will get this plot.
 
 <img width="937" alt="Screen Shot 2021-11-13 at 9 46 49 PM" src="https://user-images.githubusercontent.com/13171662/141644389-00e05586-837c-4bd9-9c73-5f61e2785ead.png">
