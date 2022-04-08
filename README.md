@@ -59,8 +59,8 @@ pip install arduplot
 </pre>
 
 ## Running it as part of PlatformIO monitor filter ##
-1. Install the arduplot first<pre>pip install arduplot</pre>
-2. Configure the tool. There are three ways to configure.
+**1**. Install the arduplot first<pre>pip install arduplot</pre>
+**2**. Configure the tool. There are three ways to configure.
 <ol type="i">
   <li>configure every time you create a pio project</li>
   <li>configure your platform wise like esp8266 or esp32</li>
@@ -78,7 +78,7 @@ For iii), you can just set the environment variable as below and run this withou
 <pre>export PLATFORMIO_MONITOR_DIR=${HOME}/.platformio/penv/lib/python3.9/site-packages/arduplot/</pre>
 
 
-3. With the above steps done, run <pre>pio device monitor -f plotter</pre>And you will get this plot.
+**3**. With the above steps done, run <pre>pio device monitor -f plotter</pre>And you will get this plot.
 
 <img width="937" alt="Screen Shot 2021-11-13 at 9 46 49 PM" src="https://user-images.githubusercontent.com/13171662/141644389-00e05586-837c-4bd9-9c73-5f61e2785ead.png">
 
