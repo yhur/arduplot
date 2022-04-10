@@ -74,7 +74,7 @@ For ii), you create the ~/.platformio/platform/espressif8266/monitor folder and 
 ~/.platformio/platform/espressif8266/monitor (or ~/.platformio/platform/espressif32/monitor for esp32)
 </pre>
 
-For iii), you can just set the environment variable as below and run this without copying. For Windows, you set the environment variable as such in the Windows way.
+And for iii), you can just set the environment variable as below and run this without copying. For Windows, you set the environment variable as such in the Windows way.
 <pre>export PLATFORMIO_MONITOR_DIR=${HOME}/.platformio/penv/lib/python3.9/site-packages/arduplot/</pre>
 
 
