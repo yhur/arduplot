@@ -23,12 +23,14 @@ Options:
   --help                Show this message and exit.
 </pre>
 As an example, you can build and run https://github.com/iotlab101/pio_filter_dht22 on an esp8266 and run the following command.
+
 <pre>
 arduplot -p COM5 -t Thermometer -w 100 Temperature Humidity
 </pre>
 Here -t Thermometer is the title of the plot chart, -w 100 is the width of the plot, and Temperature and the Humidity are the labels of the plotting data.
 And you'll see see the plot like this
 
+(And you can plot the data from a TCP connection instead of the serial port if you use the **-s** option. Use the **-s** option to open and wait on a socket, then feed the data to the socket. The data format should be the same as the Serial port case)
 
 ![Screen Shot 2021-11-13 at 9 59 48 PM](https://user-images.githubusercontent.com/13171662/141644699-778221fe-7eb4-4760-bc6b-3f3671e2724d.png)
 
@@ -66,6 +68,7 @@ pip install arduplot
   <li>configure your platform wise like esp8266 or esp32</li>
   <li>or you just configure globally by setting an environment variable.</li>
 </ol>
+<br>
 For i), you create a folder 'monitor' under your pio project folder, and copy ~/.platformio/penv/lib/python3.9/site-packages/arduplot/filter_plotter.py script to that folder.
 <pre>&lt;Project&gt;/monitor</pre>
 
