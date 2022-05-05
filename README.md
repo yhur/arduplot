@@ -32,7 +32,7 @@ And you'll see see the plot like this
 
 ![Screen Shot 2021-11-13 at 9 59 48 PM](https://user-images.githubusercontent.com/13171662/141644699-778221fe-7eb4-4760-bc6b-3f3671e2724d.png)
 
-(And you can plot the data from a TCP connection instead of the serial port if you use the **-s** option. Use the **-s** option to open and wait on a socket, then feed the data to the socket. The data format should be the same as the Serial port case)
+(And you can plot the data from a TCP connection as well instead of the serial port if you use the **-s** option. Use the **-s** option to open and wait on a socket, then feed the data to the socket. The data format should be the same as the Serial port case)
 
 ### Optional Plot Configuration
 There is an optional configuration file where you can set the setting for the plotting for the project. If you create a json file named **'plotcfg.json'** under the the PIO project directory, you don't have to pass the parameters every time you invoke the tool.
