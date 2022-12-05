@@ -82,5 +82,19 @@ And for iii), you can just set the environment variable as below and run this wi
 
 **3**. With the above steps done, run <pre>pio device monitor -f plotter</pre>And you will get this plot.
 
+### Windows usage with Version Core 6.1.5·Home 3.4.3
+In Gui go to PLatforIO sidebar
+  -> Select New Terminal in quick access at the bottom
+In the Terminal window run the following
+  -> `pip install arduplot`
+Close the terminal or type exit
+
+Edit the platform.ini file (with VS or your preference)
+add or ammend (add ,plotter if the entry line already exists) plotter to the monitor filter flag
+   -> `monitor_filters = plotter`
+
+Happy hunting guide addition compliments of @cybertza 
+(please not the process will say not responding in windows until data has been recieved from the serial)
+
 <img width="937" alt="Screen Shot 2021-11-13 at 9 46 49 PM" src="https://user-images.githubusercontent.com/13171662/141644389-00e05586-837c-4bd9-9c73-5f61e2785ead.png">
 
