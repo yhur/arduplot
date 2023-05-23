@@ -83,7 +83,7 @@ And for iii), you can just set the environment variable as below and run this wi
 **3**. With the above steps done, run <pre>pio device monitor -f plotter</pre>And you will get this plot.
 
 ### Windows usage with Version Core 6.1.5·Home 3.4.3
-In Gui go to PLatforIO sidebar
+In GUI go to PlatformIO sidebar
   -> Select New Terminal in quick access at the bottom
 In the Terminal window run the following
   -> `pip install arduplot`
