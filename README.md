@@ -94,7 +94,7 @@ add or ammend (add ,plotter if the entry line already exists) plotter to the mon
    -> `monitor_filters = plotter`
 
 Happy hunting guide addition compliments of @cybertza 
-(please not the process will say not responding in windows until data has been recieved from the serial)
+(please note the process will stay not responding in windows until data has been recieved from the serial)
 
 <img width="937" alt="Screen Shot 2021-11-13 at 9 46 49 PM" src="https://user-images.githubusercontent.com/13171662/141644389-00e05586-837c-4bd9-9c73-5f61e2785ead.png">
 
