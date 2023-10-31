@@ -53,6 +53,7 @@ def value_by_key(j, key, value):
 @click.option("--width", "-w", type=int, help="Plotter Width")
 @click.option("--ymin", "-i", type=int, help="Plotter Y axis Min")
 @click.option("--ymax", "-x", type=int, help="Plotter Y axis Max")
+@click.option("--period", "-e", type=int, help="Plotter sample period (ms), default=1000")
 @click.option("--title", "-t",  help="Plotter Title")
 @click.option("--socket", "-s", type=int, help="TCP Socket Port number")
 @click.option("--port", "-p", help="Serial Port, a number or a device name")
@@ -109,6 +110,7 @@ def main(**kwargs):
     width = 50
     ymin = None
     ymax = None
+    period = 1000
     title = 'Serial Data Plot'
     data_label = []
     tcp_socket = kwargs['socket'] or None
@@ -121,6 +123,7 @@ def main(**kwargs):
         width = value_by_key(plot_cfg, 'width', width)
         ymin = value_by_key(plot_cfg, 'ymin', ymin)
         ymax = value_by_key(plot_cfg, 'ymax', ymax)
+        period = value_by_key(plot_cfg, 'period', period)
         data_label = value_by_key(plot_cfg, 'label', data_label)
     except FileNotFoundError:
         pass
@@ -128,6 +131,7 @@ def main(**kwargs):
     width = kwargs['width'] or width
     ymin = kwargs['ymin'] or ymin
     ymax = kwargs['ymax'] or ymax
+    period = kwargs['period'] or period
     data_label = list(kwargs['labels']) or data_label
 
     if tcp_socket:
@@ -176,7 +180,7 @@ def main(**kwargs):
     else:
         fig.canvas.manager.set_window_title('tcp://localhost:'+str(tcp_socket))
     ax = fig.subplots()
-    ani = animation.FuncAnimation(fig, animate,  interval=1000)
+    ani = animation.FuncAnimation(fig, animate, interval=period)
     plt.show()
 # END MAIN FUNCTION
 
