@@ -134,3 +134,4 @@ And we can use the arduplot to plot the graph with the fed data by
 ```
 python waves.py | arduplot -n -w 500 -e 10
 ```
+And this sample is also taken from Antoino's work in the pull request.
