@@ -19,6 +19,7 @@ Options:
   -e, --period INTEGER  Plotter sample period (ms), default=1000"
   -t, --title TEXT      Plotter Title
   -s, --socket INTEGER  TCP Socket Port number
+  -n, --stdin           Standard input pipe
   -p, --port TEXT       Serial Port, a number or a device name
   -b, --baud INTEGER    Set baudrate, default=115200
   --help                Show this message and exit.
@@ -99,3 +100,37 @@ Happy hunting guide addition compliments of @cybertza
 
 <img width="937" alt="Screen Shot 2021-11-13 at 9 46 49 PM" src="https://user-images.githubusercontent.com/13171662/141644389-00e05586-837c-4bd9-9c73-5f61e2785ead.png">
 
+### New Features ###
+Thanks to Antonio(https://github.com/ancebfer), arduplot has two new features. That is `-e` and `-n` option.
+
+`-e` is for the rendering time interval in milli seconds unit
+
+and 
+
+The original arduplot takes the input from either a serial port or some tcp port(this is used in `pio device monitor -f plotter` command). Now
+
+`-n` introduce another input, that is the standard input. What we can do with it is to pipe some data into the arduplot.
+
+For example, here is an example python code named 'wave.py' that generates the data.
+```python
+#!/usr/bin/env python3
+import math
+import time
+
+freq = 1  # Hz
+period = 0.01  # s
+
+t = 0
+while True:
+    x = 2 * math.pi * freq * t
+    y1 = math.sin(x)
+    y2 = math.cos(x)
+    print(y1, y2)
+    t += period
+    time.sleep(period)
+```
+
+And we can use the arduplot to plot the graph with the fed data by 
+```
+python waves.py | arduplot -n -w 500 -e 10
+```
