@@ -77,10 +77,10 @@ def main(**kwargs):
     # Callback function for plotting the data by animation.FuncAnimation
     def animate(self):
         ax.clear()
-        lines = get_input().split()
+        line = get_input().split()
         # data labelling
-        if len(lines) > len(data_label):
-            i = len(lines) - len(data_label)
+        if len(line) > len(data_label):
+            i = len(line) - len(data_label)
             j = 0
             while i > j:
                 data_label.append('data' + str(j + 1))
@@ -88,7 +88,7 @@ def main(**kwargs):
 
         # data array preparation
         k = 0
-        for l in lines:
+        for l in line:
             try:
                 l = float(l)
             except ValueError:
@@ -186,11 +186,12 @@ def main(**kwargs):
     if stdin_pipe:
         fig.canvas.manager.set_window_title('Standard input')
     elif tcp_socket:
-        fig.canvas.manager.set_window_title(ser.port)
-    else:
         fig.canvas.manager.set_window_title('tcp://localhost:'+str(tcp_socket))
+    else:
+        fig.canvas.manager.set_window_title(ser.port)
+
     ax = fig.subplots()
-    ani = animation.FuncAnimation(fig, animate, interval=period)
+    ani = animation.FuncAnimation(fig, animate, interval=period, cache_frame_data=False)
     plt.show()
 # END MAIN FUNCTION
 
