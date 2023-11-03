@@ -183,7 +183,7 @@ def main(**kwargs):
             sys.exit(4)
 
     fig = plt.figure()
-    if pipe_in:
+    if stdin_pipe:
         fig.canvas.manager.set_window_title('Standard input')
     elif tcp_socket:
         fig.canvas.manager.set_window_title(ser.port)
