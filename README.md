@@ -100,7 +100,7 @@ Happy hunting guide addition compliments of @cybertza
 
 <img width="937" alt="Screen Shot 2021-11-13 at 9 46 49 PM" src="https://user-images.githubusercontent.com/13171662/141644389-00e05586-837c-4bd9-9c73-5f61e2785ead.png">
 
-### New Features ###
+### New Features for arduplot 0.2.8 ###
 Thanks to Antonio(@ancebfer), arduplot has two new features. That is `-e` and `-n` option.
 
 `-e` is for the rendering time interval in milli seconds unit
