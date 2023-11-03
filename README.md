@@ -101,7 +101,7 @@ Happy hunting guide addition compliments of @cybertza
 <img width="937" alt="Screen Shot 2021-11-13 at 9 46 49 PM" src="https://user-images.githubusercontent.com/13171662/141644389-00e05586-837c-4bd9-9c73-5f61e2785ead.png">
 
 ### New Features ###
-Thanks to Antonio(https://github.com/ancebfer), arduplot has two new features. That is `-e` and `-n` option.
+Thanks to Antonio(@ancebfer), arduplot has two new features. That is `-e` and `-n` option.
 
 `-e` is for the rendering time interval in milli seconds unit
 
@@ -134,4 +134,5 @@ And we can use the arduplot to plot the graph with the fed data by
 ```
 python waves.py | arduplot -n -w 500 -e 10
 ```
-And this sample is also taken from Antoino's work in the pull request.
+This sample is also taken from Antoino's work in the pull request.
+And thank you @thijstriemstra and @cybertza for your contribution as well.
