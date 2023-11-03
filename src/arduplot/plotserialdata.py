@@ -55,6 +55,7 @@ def value_by_key(j, key, value):
 @click.option("--ymax", "-x", type=int, help="Plotter Y axis Max")
 @click.option("--period", "-e", type=int, help="Plotter sample period (ms), default=1000")
 @click.option("--title", "-t",  help="Plotter Title")
+@click.option("--stdin", "-n", is_flag=True, help="Standard input pipe")
 @click.option("--socket", "-s", type=int, help="TCP Socket Port number")
 @click.option("--port", "-p", help="Serial Port, a number or a device name")
 @click.option("--baud", "-b", type=int, help="Set baudrate, default=115200")
@@ -68,6 +69,10 @@ def main(**kwargs):
     # Reading data function from the TCP socket
     def tcp_in():
         return client_socket.recv(1024)
+
+    # Reading data function from the Standard Input
+    def pipe_in():
+        return sys.stdin.readline()
 
     # Callback function for plotting the data by animation.FuncAnimation
     def animate(self):
@@ -113,6 +118,7 @@ def main(**kwargs):
     period = 1000
     title = 'Serial Data Plot'
     data_label = []
+    stdin_pipe = kwargs['stdin'] or None
     tcp_socket = kwargs['socket'] or None
 
     # check and get the plotter config if the config file exists
@@ -134,7 +140,9 @@ def main(**kwargs):
     period = kwargs['period'] or period
     data_label = list(kwargs['labels']) or data_label
 
-    if tcp_socket:
+    if stdin_pipe:
+        get_input = pipe_in
+    elif tcp_socket:
         get_input = tcp_in
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -175,7 +183,9 @@ def main(**kwargs):
             sys.exit(4)
 
     fig = plt.figure()
-    if not tcp_socket:
+    if stdin_pipe:
+        fig.canvas.manager.set_window_title('Standard input')
+    elif tcp_socket:
         fig.canvas.manager.set_window_title(ser.port)
     else:
         fig.canvas.manager.set_window_title('tcp://localhost:'+str(tcp_socket))
