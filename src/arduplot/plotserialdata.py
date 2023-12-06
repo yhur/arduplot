@@ -49,7 +49,8 @@ def value_by_key(j, key, value):
     return value
 
 # BEGIN MAIN FUNCTION
-@click.command(context_settings=dict(help_option_names=["-h", "--help"]))
+@click.command(context_settings=dict(help_option_names=["-h", "--help"]),
+               help="arduplot(ver:0.2.9) plots serial data from the serial port, TCP socket or standard input")
 @click.option("--width", "-w", type=int, help="Plotter Width")
 @click.option("--ymin", "-i", type=int, help="Plotter Y axis Min")
 @click.option("--ymax", "-x", type=int, help="Plotter Y axis Max")
