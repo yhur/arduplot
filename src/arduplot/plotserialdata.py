@@ -78,29 +78,25 @@ def main(**kwargs):
     # Callback function for plotting the data by animation.FuncAnimation
     def animate(self):
         ax.clear()
-        line = get_input().split()
+        buffer = get_input().decode('utf-8').split('\n')
+        line = buffer[-2 if len(buffer[-1]) == 0 else -1].split()
         # data labelling
         if len(line) > len(data_label):
-            i = len(line) - len(data_label)
-            j = 0
-            while i > j:
-                data_label.append('data' + str(j + 1))
-                j = j + 1
+            for i in range(len(line) - len(data_label)):
+                data_label.append(f'data{len(data_label) + 1}')
 
-        # data array preparation
-        k = 0
-        for l in line:
+        # Prepare the data for plotting
+        for idx, l in enumerate(line):
             try:
                 l = float(l)
             except ValueError:
-                print(f"Can't convert {l} to float. it's zeroed out")
-                l = float(0)
-            if len(data) <= k:
+                print(f"Can't convert {l} to float. Zeroed out.")
+                l = 0.0
+            if len(data) <= idx:
                 data.append([])
-            data[k].append(l)
-            data[k] = data[k][-width:]              # truncate to the graph width
-            ax.plot(data[k], label=data_label[k])
-            k = k + 1
+            data[idx].append(l)
+            data[idx] = data[idx][-width:]  # Truncate to graph width
+            ax.plot(data[idx], label=data_label[idx])
 
         # plotting
         plt.title(title)
