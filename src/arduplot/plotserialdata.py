@@ -27,7 +27,6 @@ import signal
 import json
 import socket
 import matplotlib.pyplot as plt
-from matplotlib import animation
 import serial
 import click
 from serial.serialutil import SerialException
@@ -54,8 +53,7 @@ def value_by_key(j, key, value):
 @click.option("--width", "-w", type=int, help="Plotter Width")
 @click.option("--ymin", "-i", type=int, help="Plotter Y axis Min")
 @click.option("--ymax", "-x", type=int, help="Plotter Y axis Max")
-@click.option("--period", "-e", type=int, help="Plotter sample period (ms), default=1000")
-@click.option("--title", "-t",  help="Plotter Title")
+@click.option("--title", "-t", help="Plotter Title")
 @click.option("--stdin", "-n", is_flag=True, help="Standard input pipe")
 @click.option("--socket", "-s", type=int, help="TCP Socket Port number")
 @click.option("--port", "-p", help="Serial Port, a number or a device name")
@@ -75,52 +73,48 @@ def main(**kwargs):
     def pipe_in():
         return sys.stdin.readline()
 
-    # Callback function for plotting the data by animation.FuncAnimation
-    def animate(self):
+    def animate():
+        '''This function is called whenever there's new input'''
         ax.clear()
         line = get_input().split()
-        # data labelling
-        if len(line) > len(data_label):
-            i = len(line) - len(data_label)
-            j = 0
-            while i > j:
-                data_label.append('data' + str(j + 1))
-                j = j + 1
 
-        # data array preparation
-        k = 0
-        for l in line:
+        # Handle data labelling
+        if len(line) > len(data_label):
+            for i in range(len(line) - len(data_label)):
+                data_label.append(f'data{len(data_label) + 1}')
+
+        # Prepare the data for plotting
+        for idx, l in enumerate(line):
             try:
                 l = float(l)
             except ValueError:
-                print(f"Can't convert {l} to float. it's zeroed out")
-                l = float(0)
-            if len(data) <= k:
+                print(f"Can't convert {l} to float. Zeroed out.")
+                l = 0.0
+            if len(data) <= idx:
                 data.append([])
-            data[k].append(l)
-            data[k] = data[k][-width:]              # truncate to the graph width
-            ax.plot(data[k], label=data_label[k])
-            k = k + 1
+            data[idx].append(l)
+            data[idx] = data[idx][-width:]  # Truncate to graph width
+            ax.plot(data[idx], label=data_label[idx])
 
-        # plotting
+        # Update the plot
         plt.title(title)
         plt.xticks(rotation=90, ha='right')
         plt.legend()
         plt.axis([0, width, ymin, ymax])
         plt.grid(color='gray', linestyle='dotted', linewidth=1)
         fig.tight_layout(pad=2.5)
+        plt.draw()  # Redraw the figure
 
-    # main control
-    # main variabls
+    # Main variables
     data = []
     width = 50
     ymin = None
     ymax = None
-    period = 1000
     title = 'Serial Data Plot'
     data_label = []
     stdin_pipe = kwargs['stdin'] or None
     tcp_socket = kwargs['socket'] or None
+    stop_program = False  # Flag to indicate window closing
 
     # check and get the plotter config if the config file exists
     try:
@@ -130,17 +124,18 @@ def main(**kwargs):
         width = value_by_key(plot_cfg, 'width', width)
         ymin = value_by_key(plot_cfg, 'ymin', ymin)
         ymax = value_by_key(plot_cfg, 'ymax', ymax)
-        period = value_by_key(plot_cfg, 'period', period)
         data_label = value_by_key(plot_cfg, 'label', data_label)
     except FileNotFoundError:
         pass
+
+    # Overwrite configurations with command-line arguments if provided
     title = kwargs['title'] or title
     width = kwargs['width'] or width
     ymin = kwargs['ymin'] or ymin
     ymax = kwargs['ymax'] or ymax
-    period = kwargs['period'] or period
     data_label = list(kwargs['labels']) or data_label
 
+    # Input source selection
     if stdin_pipe:
         get_input = pipe_in
     elif tcp_socket:
@@ -183,7 +178,8 @@ def main(**kwargs):
             print(f'Serial Device {ser.port} is not found')
             sys.exit(4)
 
-    fig = plt.figure()
+    # Setup figure for plotting
+    fig, ax = plt.subplots()
     if stdin_pipe:
         fig.canvas.manager.set_window_title('Standard input')
     elif tcp_socket:
@@ -191,10 +187,21 @@ def main(**kwargs):
     else:
         fig.canvas.manager.set_window_title(ser.port)
 
-    ax = fig.subplots()
-    ani = animation.FuncAnimation(fig, animate, interval=period, cache_frame_data=False)
-    plt.show()
-# END MAIN FUNCTION
+    # Handle window close event to stop the program
+    def on_close(event):
+        nonlocal stop_program
+        stop_program = True  # Set the stop flag to exit the loop
+
+    fig.canvas.mpl_connect('close_event', on_close)
+    # Show the plot non-blocking
+    plt.show(block=False)
+
+    # Main loop to update the plot when there's new data
+    while not stop_program:
+        input_data = get_input()
+        if input_data:
+            animate()  # Call the animation function when input is received
+        plt.pause(0.1)  # Pause to allow the event loop to process UI events
 
 if __name__ == '__main__':
     main()
