@@ -65,11 +65,11 @@ def main(**kwargs):
     '''main function'''
     # Reading data function from the Serial Port
     def uart_in():
-        return ser.readline()
+        return ser.readline().decode('utf-8')
 
     # Reading data function from the TCP socket
     def tcp_in():
-        return client_socket.recv(1024)
+        return client_socket.recv(1024).decode('utf-8')
 
     # Reading data function from the Standard Input
     def pipe_in():
@@ -78,7 +78,7 @@ def main(**kwargs):
     # Callback function for plotting the data by animation.FuncAnimation
     def animate(self):
         ax.clear()
-        buffer = get_input().decode('utf-8').split('\n')
+        buffer = get_input().split('\n')
         line = buffer[-2 if len(buffer[-1]) == 0 else -1].split()
         # data labelling
         if len(line) > len(data_label):
